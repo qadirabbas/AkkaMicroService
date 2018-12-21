@@ -1,4 +1,17 @@
 
+
+Important Git Commands:
+
+1) git checkout -b <Branch_Name>
+2) git pull
+3) git commit
+4) git push
+5) git rm -r <path/file or path/*>
+6) git push --set-upstream origin akkamicroservice-v0.1
+
+----------------------------------------------------------------------------------------------
+
+
 Below link provides overview of how to enale virtualization in windows.
 
 See the 'Setting Up the Virtualization Environment' topic (https://docs.okd.io/latest/minishift/getting-started/setting-up-virtualization-environment.html) f
