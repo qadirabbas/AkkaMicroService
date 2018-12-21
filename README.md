@@ -142,8 +142,8 @@ Below are the commands to create keyspace, table and insert data in Cassandra:
   );
 
 
-insert into userkeyspace.billing_account_by_account ("account_name","account_number","account_status","account_subtype","account_type") values ('ALMA SAVOIE  MRS','260026233606','Disconnected','test_subtype','Resident');
+insert into userkeyspace.billing_account_by_account ("account_name","account_number","account_status","account_subtype","account_type") values ('User 1','260026233606','Disconnected','test_subtype','Resident');
 
-insert into userkeyspace.billing_account_by_account ("account_name","account_number","account_status","account_subtype","account_type") values ('QAD RIZ','260026233605','Connected','test_subtype','Non Resident');
+insert into userkeyspace.billing_account_by_account ("account_name","account_number","account_status","account_subtype","account_type") values ('User 2','260026233605','Connected','test_subtype','Non Resident');
 
-insert into userkeyspace.billing_account_by_account ("account_name","account_number","account_status","account_subtype","account_type") values ('TEST USER','260026233604','Connected','test_subtype','Test Resident');
+insert into userkeyspace.billing_account_by_account ("account_name","account_number","account_status","account_subtype","account_type") values ('User 3','260026233604','Connected','test_subtype','Test Resident');
