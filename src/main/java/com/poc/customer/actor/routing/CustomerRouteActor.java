@@ -57,7 +57,8 @@ public class CustomerRouteActor extends AbstractLoggingActor {
     private class Routes extends AllDirectives {
         private Route createRoute() throws ExecutionException, InterruptedException {
             return route(
-                    getCustomerDetails()
+                    getCustomerDetails(),
+                    getStatus()
             );
         }
 
@@ -97,6 +98,12 @@ public class CustomerRouteActor extends AbstractLoggingActor {
 
                                         return onSuccess(shardingResponseCompletionStage, customerDataAccessResponseVO -> complete(StatusCodes.OK,customerDataAccessResponseVO,Jackson.marshaller()));
                                     })));
+        }
+
+        private Route getStatus() throws ExecutionException, InterruptedException{
+            String alivepath = config.getString("akka.routepath.getStatus");
+            return  route(path(alivepath, () -> get(()->  complete(StatusCodes.OK,"OK Response From Server"))));
+
         }
     }
 
