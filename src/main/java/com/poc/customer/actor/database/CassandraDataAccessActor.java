@@ -29,7 +29,7 @@ public class CassandraDataAccessActor extends AbstractLoggingActor {
     public CassandraDataAccessActor(){
         Config config= ConfigFactory.load();
         try {
-            cluster = Cluster.builder().addContactPoint("localhost").withPort(9042).withAuthProvider(new PlainTextAuthProvider("cassandra", "cassandra")).build();
+            cluster = Cluster.builder().addContactPoint("127.0.0.1").withPort(9042).withAuthProvider(new PlainTextAuthProvider("cassandra", "cassandra")).build();
             String keyspace=config.getString("akka.cassandra-keyspace.name");
             session = cluster.connect(keyspace);
             mappingManager=new MappingManager(session);
@@ -57,15 +57,20 @@ public class CassandraDataAccessActor extends AbstractLoggingActor {
             final CompletionStage<CustomerDataAccessResponseVO> completionStageResult=CompletableFuture.supplyAsync(() ->{
             ResultSet resultSet=session.execute(Query);
             Row row=resultSet.one();
-            log().info("Inside CassandraDataAccessActor:: "+row.toString());
-            CustomerDataAccessResponseVO customerDataAccessResponseVO=new CustomerDataAccessResponseVO();
-            customerDataAccessResponseVO.setAccount_number(row.getString("account_number"));
-            customerDataAccessResponseVO.setAccount_type(row.getString("account_type"));
-            customerDataAccessResponseVO.setAccount_name(row.getString("account_name"));
-            customerDataAccessResponseVO.setAccount_status(row.getString("account_status"));
-            customerDataAccessResponseVO.setAccount_subtype(row.getString("account_subtype"));
+            if(null != row) {
+                log().info("Inside CassandraDataAccessActor:: " + row.toString());
+                CustomerDataAccessResponseVO customerDataAccessResponseVO = new CustomerDataAccessResponseVO();
+                customerDataAccessResponseVO.setAccount_number(row.getString("account_number"));
+                customerDataAccessResponseVO.setAccount_type(row.getString("account_type"));
+                customerDataAccessResponseVO.setAccount_name(row.getString("account_name"));
+                customerDataAccessResponseVO.setAccount_status(row.getString("account_status"));
+                customerDataAccessResponseVO.setAccount_subtype(row.getString("account_subtype"));
 
-            return customerDataAccessResponseVO;
+                return customerDataAccessResponseVO;
+            }
+            else{
+                return new CustomerDataAccessResponseVO();
+            }
         });
         PatternsCS.pipe(completionStageResult, context().dispatcher()).to(sender());
     }
