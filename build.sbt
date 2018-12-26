@@ -15,6 +15,8 @@ libraryDependencies ++=Seq(
   "com.datastax.cassandra" % "cassandra-driver-core" % cassandraDriverVersion,
   "com.typesafe.akka" %% "akka-http-jackson" % akkaHttpVersion,
   "com.typesafe.akka" %% "akka-cluster-sharding" % akkaVersion,
+  "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion,
+  "com.novocode" % "junit-interface" % "0.10" % "test",
   "com.google.code.gson" % "gson" % "2.8.0",
   "com.datastax.cassandra" % "cassandra-driver-mapping" % "3.6.0"
 )
