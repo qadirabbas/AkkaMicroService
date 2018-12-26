@@ -54,8 +54,8 @@ public class CustomerRouteActor extends AbstractLoggingActor {
         log().info("Server online at http://" + hostname + ":" + port);
     }
 
-    private class Routes extends AllDirectives {
-        private Route createRoute() throws ExecutionException, InterruptedException {
+    public class Routes extends AllDirectives {
+        public Route createRoute() throws ExecutionException, InterruptedException {
             return route(
                     getCustomerDetails(),
                     getStatus()
@@ -89,8 +89,14 @@ public class CustomerRouteActor extends AbstractLoggingActor {
                                                 log().info("Fetching data from Cassandra DataStore, this is first time fetch");
                                                 final CompletionStage<Object> responseCompletionStage = FutureConverters.toJava(Patterns.ask(cassandraDataAccessActor,customerRequest,timeout));
                                                  return responseCompletionStage.thenApply(responseobj -> {
+                                                     CustomerDataAccessResponseVO customerDataAccessResponseVO = (CustomerDataAccessResponseVO) responseobj;
                                                      shardRegionActor.tell(responseobj,getSelf());
-                                                     return responseobj;
+                                                     if(customerDataAccessResponseVO.getAccount_number() !=null){
+                                                         return responseobj;
+                                                     }
+                                                     else{
+                                                         return "Not a valid Account Number";
+                                                     }
                                                 });
 
                                                 }
